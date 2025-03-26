@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Professional Image Slider</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #eef2f5;
+  }
+  #slider-container {
+    width: 700px;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  #slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 15px;
+  }
+  #slider img.active {
+    display: block;
+  }
+  .btn-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .indicator-container {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .indicator {
+    width: 12px;
+    height: 12px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .indicator.active {
+    background-color: #007bff;
+  }
+</style>
+</head>
+<body>
+  <div>
+    <div id="slider-container">
+      <div id="slider"></div>
+      <div class="indicator-container" id="indicators"></div>
+    </div>
+    <div class="btn-container">
+      <button onclick="prevImage()"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+      <button onclick="nextImage()">Next <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+<script>
+const images = [
+  'https://images.unsplash.com/photo-1593642532400-2682810df593',
+  'https://images.unsplash.com/photo-1517694712202-14dd9538aa97',
+  'https://images.unsplash.com/photo-1521747116042-5a810fda9664',
+  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0'
+];
+
+let currentIndex = 0;
+
+function displayImages() {
+  const slider = document.getElementById('slider');
+  const indicators = document.getElementById('indicators');
+
+  slider.innerHTML = images
+    .map((url, index) => `<img src="${url}" class="${index === currentIndex ? 'active' : ''}" />`)
+    .join('');
+
+  indicators.innerHTML = images
+    .map((_, index) => `<span class="indicator ${index === currentIndex ? 'active' : ''}" onclick="goToImage(${index})"></span>`)
+    .join('');
+}
+
+displayImages();
+
+function prevImage() {
+  currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+  displayImages();
+}
+
+function nextImage() {
+  currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+  displayImages();
+}
+
+function goToImage(index) {
+  currentIndex = index;
+  displayImages();
+}
+</script>
+</body>
+</html>
